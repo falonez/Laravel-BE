@@ -14,17 +14,13 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $mahasiswa = Mahasiswa::paginate(10);
+        return response()->json([
+            'success' => true,
+            'message' => 'Daftar Data Mahasiswa',
+            'data' => $mahasiswa
+        ], 200);
+    
     }
 
     /**
@@ -35,7 +31,18 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $mahasiswa = Mahasiswa::create([
+            'nama' => $request->nama,
+            'nim' => $request->nim,
+            'email' => $request->email,
+            'jurusan' => $request->jurusan
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Mahasiswa Berhasil Ditambahkan',
+            'data' => $mahasiswa
+        ], 200);
     }
 
     /**
@@ -46,18 +53,11 @@ class MahasiswaController extends Controller
      */
     public function show(Mahasiswa $mahasiswa)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Mahasiswa $mahasiswa)
-    {
-        //
+        response()->json([
+            'success' => true,
+            'message' => 'Detail Data Mahasiswa',
+            'data' => $mahasiswa
+        ], 200);
     }
 
     /**
@@ -69,7 +69,17 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, Mahasiswa $mahasiswa)
     {
-        //
+        $mahasiswa->nama = $request->nama;
+        $mahasiswa->nim = $request->nim;
+        $mahasiswa->email = $request->email;
+        $mahasiswa->jurusan = $request->jurusan;
+        $mahasiswa->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Mahasiswa Berhasil Diupdate',
+            'data' => $mahasiswa
+        ], 200);
     }
 
     /**
@@ -80,6 +90,12 @@ class MahasiswaController extends Controller
      */
     public function destroy(Mahasiswa $mahasiswa)
     {
-        //
+        $mahasiswa->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Mahasiswa Berhasil Dihapus',
+            'data' => $mahasiswa
+        ], 200);
     }
 }
